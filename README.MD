@@ -1,0 +1,107 @@
+# GDG Hackaton 2025 - IBM Use Case
+
+IBM Introduction and use case available in powerpoint presentation.
+
+Also some training material ... any questions ? Come see us at the booth !
+
+# IBM watsonx platform
+
+We have our full watsonx cloud platform available for you to use. The lab guide folder provides a introduction to some of the AI capbilities there.
+You will get the credentials from us after being selected for our use case.
+
+A specific login URL needs to be used for those credentials. This is :
+
+https://cloud.ibm.com/authorize/gdghackaton
+
+# **Who Are We – IBM**
+
+The mission of **IBM** is to be a catalyst that makes the world work better. We aim to have a positive impact globally, and in the communities where we operate, through strong business ethics, environmental commitment, and responsible technology.
+
+For over a century, IBM has led technological innovation. From the earliest days of computing to today’s advancements in AI and quantum technology, IBM has continuously blended intelligence, innovation, and science to improve business, society, and the human experience.
+**IBM is always on the hunt for what's next.**
+
+---
+
+# **Case Introduction**
+
+The **Publications Office of the European Union** publishes millions of pages of legal and regulatory documents each year — in **over 24 official EU languages**.
+
+Before publication, every version must be **proofread to ensure factual alignment**. This means:
+
+* No missing or mismatched numbers
+* Dates must be identical across languages
+* Monetary amounts and legal values must be consistent
+  ➤ **Simply put: all language versions must say exactly the same thing.**
+
+Currently, this verification process relies on **regex-based checks** that compare language versions to detect discrepancies. However:
+
+* The system generates *nearly twice as many alerts as actual inconsistencies*
+* This leads to **high false positive rates**, causing proofreaders to waste time manually reviewing false alerts
+* The process slows down publication and increases operational cost
+
+---
+
+# **The Challenge**
+
+**Your mission:** Use AI to make this process smarter.
+
+You will receive multilingual versions of the same EU document (e.g., English, German, Latvian). You must build a solution that can:
+
+✅ **Detect factual differences across versions**
+✅ **Minimize false positives** — only real inconsistencies should be flagged
+
+### **Why It Matters**
+
+A single wrong number or date in an official EU regulation can:
+
+* Change its legal meaning
+* Cause misinterpretation between member states
+* Require an official correction post-publication (costing time and money)
+
+---
+
+# **Resources & Tools**
+
+* **IBM watsonx.ai Documentation**
+  [https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/overview-wx.html?context=wx&audience=wdp](https://dataplatform.cloud.ibm.com/docs/content/wsj/getting-started/overview-wx.html?context=wx&audience=wdp)
+
+* **Lab Guide & Video Walkthrough**
+  [https://github.com/steve-lievens/gdghackaton2025](https://github.com/steve-lievens/gdghackaton2025)
+
+* **watsonx.ai Tutorials**
+  [https://developer.ibm.com/components/watsonx-ai/tutorials/](https://developer.ibm.com/components/watsonx-ai/tutorials/)
+
+* **watsonx.ai Python SDK**
+  [https://ibm.github.io/watsonx-ai-python-sdk/](https://ibm.github.io/watsonx-ai-python-sdk/)
+
+---
+
+# **Judging Criteria**
+
+| Category                        | Weight |
+| ------------------------------- | :----: |
+| Presentation                    |   30%  |
+| Result (Accuracy & Performance) |   50%  |
+| Solution Originality            |   20%  |
+
+*Note: LLM-based judging may be part of the evaluation process.*
+
+---
+
+# **Point of Contact**
+
+**Steve Lievens**
+📧 [steve.lievens@be.ibm.com](mailto:steve.lievens@be.ibm.com)
+📞 +32 478 423 42 12
+
+---
+
+# **Goodie Bag**
+
+🎁 **200 IBM Mini Puzzles**
+
+---
+
+# **Prize**
+
+🏆 **IBM Branded Prize Packages**
