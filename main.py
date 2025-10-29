@@ -11,20 +11,25 @@ def read_paragraphs_from_json(json_file):
     return data[0]["para"]
 
 # EN
-paragraphs_en = read_paragraphs_from_json("test_sample_en_parsed.json")
+paragraphs_en = read_paragraphs_from_json("eval_sample_en.json")
 # LV
-paragraphs_lv = read_paragraphs_from_json("test_sample_lv_parsed.json")
+paragraphs_lv = read_paragraphs_from_json("eval_sample_lv.json")
 
-
+def clean_par(paragraph):
+    # paragraph = re.sub(r'(?<=\d)\s+(?=\d)', '', paragraph)
+    words = paragraph.replace(" %", "%").split()
+    return words
 # Split the paragraph into words and assign them an index
 # Next extract all numbers, if there occur mulitple in the same word -> extract seperatly but assing the same word index
 # as they appear in the same word
 def get_all_strings_containing_numbers(paragraph):
-    words = paragraph.replace(" %","%").split()
+    words = clean_par(paragraph)
+
+
     number_words=[]
     indexes=[]
     for i,word in enumerate(words):
-        # print(word)
+
         tokens = re.findall(r'\b\d+%|\b\w+\b', word)
 
         # tokens = re.findall(r'\b\w+\b', word)
@@ -96,11 +101,14 @@ def semantic_align(seq1, seq2, indexes1, indexes2, placeholder=None):
     return aligned1, aligned2, aligned_idx1, aligned_idx2, similarity_score
 
 def highlight_text(paragraph,highlight_indexes,missing_map,marker_start='[[', marker_end=']]'):
-    words = paragraph.replace(" %","%").split()
+    # words = paragraph.replace(" %","%").split()
+    words =clean_par(paragraph)
 
     highlighted_words = []
 
     for i, word in enumerate(words):
+        if i % 10==0:
+            highlighted_words.append("\n")
         if i in highlight_indexes:
             if not missing_map[i]:
                 highlighted_words.append(f"{marker_start}{word}{marker_end}")
@@ -142,13 +150,13 @@ for par_num,(par_en,par_lv) in enumerate(zip(paragraphs_en,paragraphs_lv)):
         for i in range(len(aligned_a)):
             if aligned_a[i]!=aligned_b[i]:
                 idx_a=aligned_a_idx[i] if (aligned_a_idx[i] is not None) else aligned_b_idx[i]
-                idx_b=aligned_b_idx[i] if (aligned_a_idx[i] is not None) else aligned_b_idx[i]
+                idx_b=aligned_b_idx[i] if (aligned_b_idx[i] is not None) else aligned_a_idx[i]
 
                 missing_map_a[idx_a] = (aligned_a_idx[i] is None)
                 errors_i_a.append(idx_a)
                 missing_map_b[idx_b] = (aligned_b_idx[i] is None)
                 errors_i_b.append(idx_b)
-        if par_num==13:
+        if par_num==48:
             print(number_words_en)
             print(number_words_lv)
             print(aligned_a)
