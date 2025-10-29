@@ -24,12 +24,19 @@ currency_codes = [
 ]
 
 
-def load_json_test_samples():
-    SCRIPT_DIR = Path(__file__).resolve().parent
-    DATA_DIR = SCRIPT_DIR.parent / "data"
-    en_path = DATA_DIR / "test_sample_en_parsed.json"
-    de_path = DATA_DIR / "test_sample_de_parsed.json"
-    lv_path = DATA_DIR / "test_sample_lv_parsed.json"
+def load_json_test_samples(new=False):
+    if new:
+        SCRIPT_DIR = Path(__file__).resolve().parent
+        DATA_DIR = SCRIPT_DIR.parent / "new_data"
+        en_path = DATA_DIR / "eval_sample_en.json"
+        de_path = DATA_DIR / "eval_sample_de.json"
+        lv_path = DATA_DIR / "eval_sample_lv.json"
+    else:
+        SCRIPT_DIR = Path(__file__).resolve().parent
+        DATA_DIR = SCRIPT_DIR.parent / "data"
+        en_path = DATA_DIR / "test_sample_en_parsed.json"
+        de_path = DATA_DIR / "test_sample_de_parsed.json"
+        lv_path = DATA_DIR / "test_sample_lv_parsed.json"
 
     with open(en_path, "r", encoding="utf-8") as f:
         en_data = json.load(f)
@@ -110,13 +117,88 @@ def compare_currency_counts(dfs: list[pd.DataFrame], codes: list[str]) -> pd.Dat
     out = pd.DataFrame(rows).set_index("para_number")
     return out
 
+import matplotlib.pyplot as plt
+
+# def plot_currency_counts(counts: dict[str, dict[str, int]], save=True, show=True):
+#     """
+#     counts example:
+#     {
+#         "EUR": {"en": 3, "de": 2, "lv": 3},
+#         "USD": {"en": 0, "de": 1, "lv": 0},
+#         ...
+#     }
+#     Makes one bar chart per currency with three bars (en, de, lv).
+#     """
+#     languages = ["en", "de", "lv"]
+#
+#     for cur in sorted(counts.keys()):
+#         vals = [counts[cur].get(lang, 0) for lang in languages]
+#
+#         plt.figure(figsize=(4.5, 3.2))
+#         x = range(len(languages))
+#         plt.bar(x, vals)
+#         plt.xticks(x, languages)
+#         plt.title(f"{cur} occurrences by language")
+#         plt.ylabel("count")
+#         plt.tight_layout()
+#
+#         if save:
+#             plt.savefig(f"{cur}_counts.png", dpi=150)
+#         if show:
+#             plt.show()
+#         else:
+#             plt.close()
+
+import numpy as np
+def plot_currency_counts(counts: dict[str, dict[str, int]], save=None, show=True):
+    """
+    counts example:
+    {
+        "EUR": {"en": 3, "de": 2, "lv": 3},
+        "USD": {"en": 0, "de": 1, "lv": 0},
+        ...
+    }
+    Plots one grouped bar chart with three bars per currency (en, de, lv).
+    """
+    languages = ["en", "de", "lv"]
+    currencies = sorted(counts.keys())
+
+    # Build a matrix of shape (len(languages), len(currencies))
+    vals = np.array([[counts[cur].get(lang, 0) for cur in currencies] for lang in languages])
+
+    x = np.arange(len(currencies))            # group positions
+    width = 0.8 / len(languages)              # bar width so groups fit nicely
+
+    plt.figure(figsize=(max(6, 1.2 * len(currencies)), 4.0))
+    for i, lang in enumerate(languages):
+        plt.bar(x + i * width - (width*(len(languages)-1)/2), vals[i], width, label=lang)
+
+    plt.xticks(x, currencies, rotation=45, ha="right")
+    plt.ylabel("count")
+    plt.title("Currency mentions by language")
+    plt.legend(title="language")
+    plt.tight_layout()
+
+    if save:
+        plt.savefig(save, dpi=150)
+    if show:
+        plt.show()
+    else:
+        plt.close()
 
 if "__main__" == __name__:
-    en_data, de_data, lv_data = load_json_test_samples()
+    en_data, de_data, lv_data = load_json_test_samples(new=True)
     en_df = make_paragraph_df(en_data)
     de_df = make_paragraph_df(de_data)
     lv_df = make_paragraph_df(lv_data)
 
     result = compare_currency_counts([en_df, de_df, lv_df], currency_codes)
+    print(result)
+    print("result2")
     print(result[result["has_mismatch"]])
-    print(result.loc[41, "mismatches"])
+    candidates = result[result["has_mismatch"]]
+    #real_errors = filter_out_false_positives(candidates, currency_codes)
+
+    print("result3")
+    print(result.loc[13, "mismatches"])
+    plot_currency_counts(result.loc[13, "mismatches"], save=False)
